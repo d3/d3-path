@@ -56,7 +56,10 @@ Path.prototype = {
         da = Math.abs(a1 - a0);
     this._.push(this._.length ? "L" : "M", x0, ",", y0);
     if (da >= tau - epsilon) {
-      this._.push("A", r, ",", r, ",0,1,1,", x - dx, ",", y - dy, "A", r, ",", r, ",0,1,1,", this._x1 = x0, ",", this._y1 = y0);
+      this._.push(
+        "A", r, ",", r, ",0,1,1,", x - dx, ",", y - dy,
+        "A", r, ",", r, ",0,1,1,", this._x1 = x0, ",", this._y1 = y0
+      );
     } else {
       this._.push("A", r, ",", r, ",0,", +(da >= pi), ",1,", this._x1 = x + r * Math.cos(a1), ",", this._y1 = y + r * Math.sin(a1));
     }
