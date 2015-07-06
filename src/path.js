@@ -43,7 +43,7 @@ Path.prototype = {
         l = r * Math.tan((Math.PI - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2);
     this._.push(
       "L", x1 + l / l01 * x01, ",", y1 + l / l01 * y01,
-      "A", r, ",", r, ",0,0,", +(y01 * x20 > x01 * y20),",", x1 + l / l21 * x21, ",", y1 + l / l21 * y21,
+      "A", r, ",", r, ",0,0,", +(y01 * x20 > x01 * y20), ",", x1 + l / l21 * x21, ",", y1 + l / l21 * y21,
       "L", this._x1 = +x2, ",", this._y1 = +y2
     );
   },
