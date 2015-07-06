@@ -1,7 +1,7 @@
 {
   "name": "d3-path",
   "version": "0.0.1",
-  "description": "Serialize canvas path commands to SVG.",
+  "description": "Serialize Canvas path commands to SVG.",
   "keywords": [
     "d3",
     "canvas",
