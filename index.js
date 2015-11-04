@@ -1,5 +1,1 @@
-import path from "./src/path";
-
-export {
-  path
-};
+export {default as path} from "./src/path";
