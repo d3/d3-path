@@ -16,19 +16,19 @@
     "name": "Mike Bostock",
     "url": "http://bost.ocks.org/mike"
   },
-  "main": "build/path",
+  "main": "build/path.cjs",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3/d3-path.git"
   },
   "scripts": {
-    "pretest": "mkdir -p build && d3-bundler --format=umd --name=path -- index.js > build/path.js",
+    "pretest": "mkdir -p build && d3-bundler -x -f cjs -o build/path.cjs.js",
     "test": "faucet `find test -name '*-test.js'`",
-    "prepublish": "npm run test && uglifyjs build/path.js -c -m -o build/path.min.js && rm -f build/path.zip && zip -j build/path.zip -- LICENSE README.md build/path.js build/path.min.js"
+    "prepublish": "npm run test && d3-bundler -n path -o build/path.js && uglifyjs build/path.js -c -m -o build/path.min.js && rm -f build/path.zip && zip -j build/path.zip -- LICENSE README.md build/path.js build/path.min.js"
   },
   "devDependencies": {
-    "d3-bundler": "~0.2.5",
+    "d3-bundler": "~0.4.0",
     "faucet": "0.0",
     "tape": "4",
     "uglify-js": "2"
