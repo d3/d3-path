@@ -79,9 +79,9 @@ tape("path.arc(x, y, radius, startAngle, endAngle) appends two A commands if the
 
 tape("path.arcTo(x1, y1, x2, y2, radius) appends an A command if the arc starts at the current point", function(test) {
   var p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 163, 100, 53);
-  test.equal(p.toString(), "M270,182L270,130.2226855774366A53,53,0,0,0,190.75099085274036,84.179341663391L163,100");
+  test.equal(p.toString(), "M270,182L270,130.2226855774366A53,53,0,0,0,190.75099085274036,84.179341663391"); // TODO drop redundant L?
   var p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 363, 100, 53);
-  test.equal(p.toString(), "M270,182L270,137.1471676395838A53,53,0,0,1,352.0683817315569,92.82979877016098L363,100");
+  test.equal(p.toString(), "M270,182L270,137.1471676395838A53,53,0,0,1,352.0683817315569,92.82979877016098"); // TODO drop redundant L?
   test.end();
 });
 
