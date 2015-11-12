@@ -8,7 +8,14 @@ function Path() {
   this._ = [];
 }
 
-Path.prototype = {
+function path() {
+  return new Path;
+}
+
+Path.prototype = path.prototype = {
+  beginPath: function() {
+    this._.length = 0;
+  },
   moveTo: function(x, y) {
     this._.push("M", this._x0 = this._x1 = +x, ",", this._y0 = this._y1 = +y);
   },
@@ -44,7 +51,7 @@ Path.prototype = {
     this._.push(
       "L", x1 + l / l01 * x01, ",", y1 + l / l01 * y01,
       "A", r, ",", r, ",0,0,", +(y01 * x20 > x01 * y20), ",", x1 + l / l21 * x21, ",", y1 + l / l21 * y21,
-      "L", this._x1 = +x2, ",", this._y1 = +y2
+      "L", this._x1 = +x2, ",", this._y1 = +y2 // TODO not sure if this should be a line segment?
     );
   },
   arc: function(x, y, r, a0, a1) {
@@ -72,6 +79,4 @@ Path.prototype = {
   }
 };
 
-export default function() {
-  return new Path;
-};
+export default path;
