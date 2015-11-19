@@ -1,6 +1,6 @@
 # d3-path
 
-Say you have some code that draws a circle onto a 2D canvas:
+Say you have some code that draws to a 2D canvas:
 
 ```js
 function drawCircle(context, radius) {
