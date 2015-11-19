@@ -3,7 +3,9 @@ var pi = Math.PI,
     epsilon = 1e-6;
 
 function Path() {
-  this.beginPath();
+  this._x0 = this._y0 = // start of current subpath
+  this._x1 = this._y1 = null; // end of current subpath
+  this._ = [];
 }
 
 function path() {
@@ -11,11 +13,6 @@ function path() {
 }
 
 Path.prototype = path.prototype = {
-  beginPath: function() {
-    this._x0 = this._y0 = // start of current subpath
-    this._x1 = this._y1 = null; // end of current subpath
-    this._ = [];
-  },
   moveTo: function(x, y) {
     this._.push("M", this._x0 = this._x1 = +x, ",", this._y0 = this._y1 = +y);
   },

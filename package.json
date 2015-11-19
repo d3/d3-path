@@ -1,6 +1,6 @@
 {
   "name": "d3-path",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Serialize Canvas path commands to SVG.",
   "keywords": [
     "d3",
@@ -8,6 +8,8 @@
     "path",
     "svg",
     "graphics",
+    "CanvasRenderingContext2D",
+    "CanvasPathMethods",
     "Path2D"
   ],
   "homepage": "https://github.com/d3/d3-path",

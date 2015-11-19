@@ -1,15 +1,23 @@
 # d3-path
 
-The inverse of `new Path2D(string)`. Now you can write code that renders to either Canvas or SVG! For example:
+Say you have some code that draws a circle onto a 2D canvas:
 
 ```js
-var context = path();
-context.beginPath();
-context.moveTo(150, 20);
-context.lineTo(150, 100);
-context.closePath();
-context.toString(); // "M150,20L150,100Z"
+function drawCircle(context, radius) {
+  context.moveTo(radius, 0);
+  context.arc(0, 0, radius, 0, 2 * Math.PI);
+}
 ```
+
+The d3-path module lets you take this exact code and additionally render to [SVG](http://www.w3.org/TR/SVG/paths.html). It works by [serializing](#path_toString) the [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods) calls to a [path data](http://www.w3.org/TR/SVG/paths.html#PathData) string. For example:
+
+```js
+var p = path();
+drawCircle(p, 40);
+pathElement.setAttribute("d", p.toString());
+```
+
+Now code you write once can be used with both Canvas (for performance) and SVG (for convenience). For a practical example, see [d3-shape](https://github.com/d3/d3-shape).
 
 ## Installing
 
@@ -20,10 +28,6 @@ If you use NPM, `npm install d3-path`. Otherwise, download the [latest release](
 <a name="path" href="#path">#</a> <b>path</b>()
 
 Constructs a new path serializer.
-
-<a name="path_beginPath" href="#path_beginPath">#</a> <i>path</i>.<b>beginPath</b>()
-
-Empties the list of subpaths. Equivalent to [*context*.beginPath](http://www.w3.org/TR/2dcontext/#dom-context-2d-beginpath). Immediately after this call, [*path*.toString](#path_toString) will return the empty string.
 
 <a name="path_moveTo" href="#path_moveTo">#</a> <i>path</i>.<b>moveTo</b>(<i>x</i>, <i>y</i>)
 

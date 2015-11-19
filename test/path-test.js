@@ -4,13 +4,6 @@ var tape = require("tape"),
 tape("path is an instanceof path", function(test) {
   var p = path.path();
   test.ok(p instanceof path.path);
-  test.end();
-});
-
-tape("path.beginPath() empties all subpaths", function(test) {
-  var p = path.path(); p.moveTo(150, 50); p.lineTo(200, 100);
-  test.equal(p.toString(), "M150,50L200,100");
-  p.beginPath();
   test.equal(p.toString(), "");
   test.end();
 });
