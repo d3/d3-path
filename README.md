@@ -9,7 +9,7 @@ function drawCircle(context, radius) {
 }
 ```
 
-The d3-path module lets you take this exact code and additionally render to [SVG](http://www.w3.org/TR/SVG/paths.html). It works by [serializing](#path_toString) the [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods) calls to a [path data](http://www.w3.org/TR/SVG/paths.html#PathData) string. For example:
+The d3-path module lets you take this exact code and additionally render to [SVG](http://www.w3.org/TR/SVG/paths.html). It works by [serializing](#path_toString) [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods) calls to [SVG path data](http://www.w3.org/TR/SVG/paths.html#PathData). For example:
 
 ```js
 var p = path();
