@@ -1,6 +1,7 @@
 var pi = Math.PI,
     tau = 2 * pi,
-    epsilon = 1e-6;
+    epsilon = 1e-6,
+    tauEpsilon = tau - epsilon;
 
 function Path() {
   this._x0 = this._y0 = // start of current subpath
@@ -71,7 +72,7 @@ Path.prototype = path.prototype = {
           l20_2 = x20 * x20 + y20 * y20,
           l21 = Math.sqrt(l21_2),
           l01 = Math.sqrt(l01_2),
-          l = r * Math.tan((Math.PI - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2),
+          l = r * Math.tan((pi - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2),
           t01 = l / l01,
           t21 = l / l21;
 
@@ -87,13 +88,14 @@ Path.prototype = path.prototype = {
       );
     }
   },
-  arc: function(x, y, r, a0, a1) {
+  arc: function(x, y, r, a0, a1, ccw) {
     x = +x, y = +y, r = +r;
     var dx = r * Math.cos(a0),
         dy = r * Math.sin(a0),
         x0 = x + dx,
         y0 = y + dy,
-        da = Math.abs(a1 - a0);
+        cw = 1 ^ ccw,
+        da = ccw ? a0 - a1 : a1 - a0;
 
     // Is the radius negative? Error.
     if (r < 0) throw new Error("negative radius: " + r);
@@ -113,17 +115,18 @@ Path.prototype = path.prototype = {
     }
 
     // Is this a complete circle? Draw two arcs to complete the circle.
-    if (da >= tau - epsilon) {
+    if (da > tauEpsilon) {
       this._.push(
-        "A", r, ",", r, ",0,1,1,", x - dx, ",", y - dy,
-        "A", r, ",", r, ",0,1,1,", this._x1 = x0, ",", this._y1 = y0
+        "A", r, ",", r, ",0,1,", cw, ",", x - dx, ",", y - dy,
+        "A", r, ",", r, ",0,1,", cw, ",", this._x1 = x0, ",", this._y1 = y0
       );
     }
 
     // Otherwise, draw an arc!
     else {
+      if (da < 0) da = da % tau + tau;
       this._.push(
-        "A", r, ",", r, ",0,", +(da >= pi), ",1,", this._x1 = x + r * Math.cos(a1), ",", this._y1 = y + r * Math.sin(a1)
+        "A", r, ",", r, ",0,", +(da >= pi), ",", cw, ",", this._x1 = x + r * Math.cos(a1), ",", this._y1 = y + r * Math.sin(a1)
       );
     }
   },
