@@ -70,6 +70,18 @@ tape("path.arc(x, y, radius, startAngle, endAngle) throws an error if the radius
   test.end();
 });
 
+tape("path.arc(x, y, radius, startAngle, endAngle) may append only an M command if the radius is zero", function(test) {
+  var p = path.path(); p.arc(100, 100, 0, 0, Math.PI / 2);
+  test.pathEqual(p, "M100,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, startAngle, endAngle) may append only an L command if the radius is zero", function(test) {
+  var p = path.path(); p.moveTo(0, 0); p.arc(100, 100, 0, 0, Math.PI / 2);
+  test.pathEqual(p, "M0,0L100,100");
+  test.end();
+});
+
 tape("path.arc(x, y, radius, startAngle, endAngle) may append an M command if the path was empty", function(test) {
   var p = path.path(); p.arc(100, 100, 50, 0, Math.PI * 2);
   test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");

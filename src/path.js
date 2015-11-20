@@ -114,6 +114,9 @@ Path.prototype = path.prototype = {
       );
     }
 
+    // Is this arc empty? We’re done.
+    if (!r) return;
+
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
       this._.push(
