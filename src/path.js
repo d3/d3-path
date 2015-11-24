@@ -27,10 +27,10 @@ Path.prototype = path.prototype = {
     this._.push("L", this._x1 = +x, ",", this._y1 = +y);
   },
   quadraticCurveTo: function(x1, y1, x, y) {
-    this._.push("Q", +x1, ",", +y1, ",", this._x1 = +x, ",", this._y1 = +y);
+    this._.push("Q", +x1, ",", +y1, " ", this._x1 = +x, ",", this._y1 = +y);
   },
   bezierCurveTo: function(x1, y1, x2, y2, x, y) {
-    this._.push("C", +x1, ",", +y1, ",", +x2, ",", +y2, ",", this._x1 = +x, ",", this._y1 = +y);
+    this._.push("C", +x1, ",", +y1, " ", +x2, ",", +y2, " ", this._x1 = +x, ",", this._y1 = +y);
   },
   arcTo: function(x1, y1, x2, y2, r) {
     x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
@@ -84,7 +84,7 @@ Path.prototype = path.prototype = {
       }
 
       this._.push(
-        "A", r, ",", r, ",0,0,", +(y01 * x20 > x01 * y20), ",", this._x1 = x1 + t21 * x21, ",", this._y1 = y1 + t21 * y21
+        "A", r, ",", r, " 0 0,", +(y01 * x20 > x01 * y20), " ", this._x1 = x1 + t21 * x21, ",", this._y1 = y1 + t21 * y21
       );
     }
   },
@@ -120,8 +120,8 @@ Path.prototype = path.prototype = {
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
       this._.push(
-        "A", r, ",", r, ",0,1,", cw, ",", x - dx, ",", y - dy,
-        "A", r, ",", r, ",0,1,", cw, ",", this._x1 = x0, ",", this._y1 = y0
+        "A", r, ",", r, " 0 1,", cw, " ", x - dx, ",", y - dy,
+        "A", r, ",", r, " 0 1,", cw, " ", this._x1 = x0, ",", this._y1 = y0
       );
     }
 
@@ -129,7 +129,7 @@ Path.prototype = path.prototype = {
     else {
       if (da < 0) da = da % tau + tau;
       this._.push(
-        "A", r, ",", r, ",0,", +(da >= pi), ",", cw, ",", this._x1 = x + r * Math.cos(a1), ",", this._y1 = y + r * Math.sin(a1)
+        "A", r, ",", r, " 0 ", +(da >= pi), ",", cw, " ", this._x1 = x + r * Math.cos(a1), ",", this._y1 = y + r * Math.sin(a1)
       );
     }
   },

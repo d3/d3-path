@@ -52,7 +52,7 @@ tape("path.quadraticCurveTo(x1, y1, x, y) appends a Q command", function(test) {
   var p = path.path(); p.moveTo(150, 50);
   test.pathEqual(p, "M150,50");
   p.quadraticCurveTo(100, 50, 200, 100);
-  test.pathEqual(p, "M150,50Q100,50,200,100");
+  test.pathEqual(p, "M150,50Q100,50 200,100");
   test.end();
 });
 
@@ -60,7 +60,7 @@ tape("path.bezierCurveTo(x1, y1, x, y) appends a C command", function(test) {
   var p = path.path(); p.moveTo(150, 50);
   test.pathEqual(p, "M150,50");
   p.bezierCurveTo(100, 50, 0, 24, 200, 100);
-  test.pathEqual(p, "M150,50C100,50,0,24,200,100");
+  test.pathEqual(p, "M150,50C100,50 0,24 200,100");
   test.end();
 });
 
@@ -84,111 +84,111 @@ tape("path.arc(x, y, radius, startAngle, endAngle) may append only an L command 
 
 tape("path.arc(x, y, radius, startAngle, endAngle) may append an M command if the path was empty", function(test) {
   var p = path.path(); p.arc(100, 100, 50, 0, Math.PI * 2);
-  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.pathEqual(p, "M150,100A50,50 0 1,1 50,100A50,50 0 1,1 150,100");
   var p = path.path(); p.arc(0, 50, 50, -Math.PI / 2, 0);
-  test.pathEqual(p, "M0,0A50,50,0,0,1,50,50");
+  test.pathEqual(p, "M0,0A50,50 0 0,1 50,50");
   test.end();
 });
 
 tape("path.arc(x, y, radius, startAngle, endAngle) may append an L command if the arc doesn’t start at the current point", function(test) {
   var p = path.path(); p.moveTo(100, 100); p.arc(100, 100, 50, 0, Math.PI * 2);
-  test.pathEqual(p, "M100,100L150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.pathEqual(p, "M100,100L150,100A50,50 0 1,1 50,100A50,50 0 1,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, startAngle, endAngle) appends a single A command if the angle is less than π", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, Math.PI / 2);
-  test.pathEqual(p, "M150,100A50,50,0,0,1,100,150");
+  test.pathEqual(p, "M150,100A50,50 0 0,1 100,150");
   test.end();
 });
 
 tape("path.arc(x, y, radius, startAngle, endAngle) appends a single A command if the angle is less than τ", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, Math.PI * 1);
-  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100");
+  test.pathEqual(p, "M150,100A50,50 0 1,1 50,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, startAngle, endAngle) appends two A commands if the angle is greater than τ", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, Math.PI * 2);
-  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.pathEqual(p, "M150,100A50,50 0 1,1 50,100A50,50 0 1,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 0, π/2, false) draws a small clockwise arc", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, Math.PI / 2, false);
-  test.pathEqual(p, "M150,100A50,50,0,0,1,100,150");
+  test.pathEqual(p, "M150,100A50,50 0 0,1 100,150");
   test.end();
 });
 
 tape("path.arc(x, y, radius, -π/2, 0, false) draws a small clockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, -Math.PI / 2, 0, false);
-  test.pathEqual(p, "M100,50A50,50,0,0,1,150,100");
+  test.pathEqual(p, "M100,50A50,50 0 0,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 0, 13π/2, false) draws a clockwise circle", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 13 * Math.PI / 2, false);
-  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.pathEqual(p, "M150,100A50,50 0 1,1 50,100A50,50 0 1,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 13π/2, 0, false) draws a big clockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 150); p.arc(100, 100, 50, 13 * Math.PI / 2, 0, false);
-  test.pathEqual(p, "M100,150A50,50,0,1,1,150,100");
+  test.pathEqual(p, "M100,150A50,50 0 1,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, π/2, 0, false) draws a big clockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 150); p.arc(100, 100, 50, Math.PI / 2, 0, false);
-  test.pathEqual(p, "M100,150A50,50,0,1,1,150,100");
+  test.pathEqual(p, "M100,150A50,50 0 1,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 3π/2, 0, false) draws a small clockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, 3 * Math.PI / 2, 0, false);
-  test.pathEqual(p, "M100,50A50,50,0,0,1,150,100");
+  test.pathEqual(p, "M100,50A50,50 0 0,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 15π/2, 0, false) draws a small clockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, 15 * Math.PI / 2, 0, false);
-  test.pathEqual(p, "M100,50A50,50,0,0,1,150,100");
+  test.pathEqual(p, "M100,50A50,50 0 0,1 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 0, π/2, true) draws a big anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, Math.PI / 2, true);
-  test.pathEqual(p, "M150,100A50,50,0,1,0,100,150");
+  test.pathEqual(p, "M150,100A50,50 0 1,0 100,150");
   test.end();
 });
 
 tape("path.arc(x, y, radius, -π/2, 0, true) draws a big anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, -Math.PI / 2, 0, true);
-  test.pathEqual(p, "M100,50A50,50,0,1,0,150,100");
+  test.pathEqual(p, "M100,50A50,50 0 1,0 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, -13π/2, 0, true) draws a big anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, -13 * Math.PI / 2, 0, true);
-  test.pathEqual(p, "M100,50A50,50,0,1,0,150,100");
+  test.pathEqual(p, "M100,50A50,50 0 1,0 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 0, 13π/2, true) draws a big anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 13 * Math.PI / 2, true);
-  test.pathEqual(p, "M150,100A50,50,0,1,0,100,150");
+  test.pathEqual(p, "M150,100A50,50 0 1,0 100,150");
   test.end();
 });
 
 tape("path.arc(x, y, radius, π/2, 0, true) draws a small anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 150); p.arc(100, 100, 50, Math.PI / 2, 0, true);
-  test.pathEqual(p, "M100,150A50,50,0,0,0,150,100");
+  test.pathEqual(p, "M100,150A50,50 0 0,0 150,100");
   test.end();
 });
 
 tape("path.arc(x, y, radius, 3π/2, 0, true) draws a big anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, 3 * Math.PI / 2, 0, true);
-  test.pathEqual(p, "M100,50A50,50,0,1,0,150,100");
+  test.pathEqual(p, "M100,50A50,50 0 1,0 150,100");
   test.end();
 });
 
@@ -230,21 +230,21 @@ tape("path.arcTo(x1, y1, x2, y2, radius) appends an L command if the radius is z
 
 tape("path.arcTo(x1, y1, x2, y2, radius) appends L and A commands if the arc does not start at the current point", function(test) {
   var p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 163, 100, 53);
-  test.pathEqual(p, "M270,182L270,130.222686A53,53,0,0,0,190.750991,84.179342");
+  test.pathEqual(p, "M270,182L270,130.222686A53,53 0 0,0 190.750991,84.179342");
   var p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 363, 100, 53);
-  test.pathEqual(p, "M270,182L270,137.147168A53,53,0,0,1,352.068382,92.829799");
+  test.pathEqual(p, "M270,182L270,137.147168A53,53 0 0,1 352.068382,92.829799");
   test.end();
 });
 
 tape("path.arcTo(x1, y1, x2, y2, radius) appends only an A command if the arc starts at the current point", function(test) {
   var p = path.path(); p.moveTo(100, 100), p.arcTo(200, 100, 200, 200, 100);
-  test.pathEqual(p, "M100,100A100,100,0,0,1,200,200");
+  test.pathEqual(p, "M100,100A100,100 0 0,1 200,200");
   test.end();
 });
 
 tape("path.arcTo(x1, y1, x2, y2, radius) sets the last point to be the end tangent of the arc", function(test) {
   var p = path.path(); p.moveTo(100, 100), p.arcTo(200, 100, 200, 200, 50); p.arc(150, 150, 50, 0, Math.PI);
-  test.pathEqual(p, "M100,100L150,100A50,50,0,0,1,200,150A50,50,0,1,1,100,150");
+  test.pathEqual(p, "M100,100L150,100A50,50 0 0,1 200,150A50,50 0 1,1 100,150");
   test.end();
 });
 
