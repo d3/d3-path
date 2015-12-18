@@ -12,22 +12,28 @@ function drawCircle(context, radius) {
 The d3-path module lets you take this exact code and additionally render to [SVG](http://www.w3.org/TR/SVG/paths.html). It works by [serializing](#path_toString) [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods) calls to [SVG path data](http://www.w3.org/TR/SVG/paths.html#PathData). For example:
 
 ```js
-var p = path();
-drawCircle(p, 40);
-pathElement.setAttribute("d", p.toString());
+var context = d3_path.path();
+drawCircle(context, 40);
+pathElement.setAttribute("d", context.toString());
 ```
 
 Now code you write once can be used with both Canvas (for performance) and SVG (for convenience). For a practical example, see [d3-shape](https://github.com/d3/d3-shape).
 
 ## Installing
 
-If you use NPM, `npm install d3-path`. Otherwise, download the [latest release](https://github.com/d3/d3-path/releases/latest).
+If you use NPM, `npm install d3-path`. Otherwise, download the [latest release](https://github.com/d3/d3-path/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a custom build using [Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3js.org](https://d3js.org):
+
+```html
+<script src="https://d3js.org/d3-path.v0.1.min.js"></script>
+```
+
+In a vanilla environment, a `d3_path` global is exported. [Try d3-path in your browser.](https://tonicdev.com/npm/d3-path)
 
 ## API Reference
 
-<a name="path" href="#path">#</a> <b>path</b>()
+<a name="path" href="#path">#</a> d3_path.<b>path</b>()
 
-Constructs a new path serializer.
+Constructs a new path serializer that implements [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods).
 
 <a name="path_moveTo" href="#path_moveTo">#</a> <i>path</i>.<b>moveTo</b>(<i>x</i>, <i>y</i>)
 
