@@ -12,7 +12,7 @@ function drawCircle(context, radius) {
 The d3-path module lets you take this exact code and additionally render to [SVG](http://www.w3.org/TR/SVG/paths.html). It works by [serializing](#path_toString) [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods) calls to [SVG path data](http://www.w3.org/TR/SVG/paths.html#PathData). For example:
 
 ```js
-var context = d3_path.path();
+var context = d3.path();
 drawCircle(context, 40);
 pathElement.setAttribute("d", context.toString());
 ```
@@ -31,7 +31,7 @@ In a vanilla environment, a `d3_path` global is exported. [Try d3-path in your b
 
 ## API Reference
 
-<a name="path" href="#path">#</a> d3_path.<b>path</b>()
+<a name="path" href="#path">#</a> d3.<b>path</b>()
 
 Constructs a new path serializer that implements [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods).
 
