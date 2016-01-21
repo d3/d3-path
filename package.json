@@ -26,7 +26,7 @@
   },
   "scripts": {
     "pretest": "mkdir -p build && node -e 'process.stdout.write(\"var version = \\\"\" + require(\"./package.json\").version + \"\\\"; export * from \\\"../index\\\"; export {version};\");' > build/bundle.js && rollup -f umd -u d3-path -n d3_path -o build/d3-path.js -- build/bundle.js",
-    "test": "faucet `find test -name '*-test.js'`",
+    "test": "faucet `find test -name '*-test.js'` && eslint index.js src",
     "prepublish": "npm run test && uglifyjs build/d3-path.js -c -m -o build/d3-path.min.js && rm -f build/d3-path.zip && zip -j build/d3-path.zip -- LICENSE README.md build/d3-path.js build/d3-path.min.js"
   },
   "devDependencies": {
