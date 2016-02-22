@@ -6,6 +6,7 @@ require("./pathEqual");
 tape("path is an instanceof path", function(test) {
   var p = path.path();
   test.ok(p instanceof path.path);
+  test.equal(p.constructor.name, "Path");
   test.pathEqual(p, "");
   test.end();
 });
