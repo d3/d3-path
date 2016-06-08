@@ -21,13 +21,13 @@ Now code you write once can be used with both Canvas (for performance) and SVG (
 
 ## Installing
 
-If you use NPM, `npm install d3-path`. Otherwise, download the [latest release](https://github.com/d3/d3-path/releases/latest). You can also load directly from [d3js.org](https://d3js.org), either as a [standalone library](https://d3js.org/d3-path.v0.1.min.js) or as part of [D3 4.0](https://github.com/d3/d3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3_path` global is exported:
+If you use NPM, `npm install d3-path`. Otherwise, download the [latest release](https://github.com/d3/d3-path/releases/latest). You can also load directly from [d3js.org](https://d3js.org), either as a [standalone library](https://d3js.org/d3-path.v0.2.min.js) or as part of [D3 4.0](https://github.com/d3/d3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
 
 ```html
-<script src="https://d3js.org/d3-path.v0.1.min.js"></script>
+<script src="https://d3js.org/d3-path.v0.2.min.js"></script>
 <script>
 
-var path = d3_path.path();
+var path = d3.path();
 path.moveTo(1, 2);
 path.lineTo(3, 4);
 path.closePath();
