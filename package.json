@@ -4,6 +4,7 @@
   "description": "Serialize Canvas path commands to SVG.",
   "keywords": [
     "d3",
+    "d3-module",
     "canvas",
     "path",
     "svg",
