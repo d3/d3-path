@@ -33,9 +33,9 @@
     "postpublish": "VERSION=`node -e 'console.log(require(\"./package.json\").version)'`; git push && git push --tags && cd ../d3.github.com && git pull && cp ../d3-path/build/d3-path.js d3-path.v1.js && cp ../d3-path/build/d3-path.min.js d3-path.v1.min.js && git add d3-path.v1.js d3-path.v1.min.js && git commit -m \"d3-path ${VERSION}\" && git push && cd - && zip -j build/d3-path.zip -- LICENSE README.md build/d3-path.js build/d3-path.min.js"
   },
   "devDependencies": {
-    "eslint": "2",
+    "eslint": "3",
     "package-preamble": "0.0",
-    "rollup": "0.34",
+    "rollup": "0.35",
     "tape": "4",
     "uglify-js": "2"
   }
