@@ -110,7 +110,7 @@ Path.prototype = path.prototype = {
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
       this.str +=
-        "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy),
+        "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) +
         "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
     }
 
