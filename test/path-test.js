@@ -86,7 +86,7 @@ tape("path.arc(x, y, radius, startAngle, endAngle) may append only an L command 
 tape("path.arc(x, y, radius, startAngle, endAngle) may append an M command if the path was empty", function(test) {
   var p = path.path(); p.arc(100, 100, 50, 0, Math.PI * 2);
   test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
-  var p = path.path(); p.arc(0, 50, 50, -Math.PI / 2, 0);
+  p = path.path(); p.arc(0, 50, 50, -Math.PI / 2, 0);
   test.pathEqual(p, "M0,0A50,50,0,0,1,50,50");
   test.end();
 });
@@ -232,7 +232,7 @@ tape("path.arcTo(x1, y1, x2, y2, radius) appends an L command if the radius is z
 tape("path.arcTo(x1, y1, x2, y2, radius) appends L and A commands if the arc does not start at the current point", function(test) {
   var p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 163, 100, 53);
   test.pathEqual(p, "M270,182L270,130.222686A53,53,0,0,0,190.750991,84.179342");
-  var p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 363, 100, 53);
+  p = path.path(); p.moveTo(270, 182), p.arcTo(270, 39, 363, 100, 53);
   test.pathEqual(p, "M270,182L270,137.147168A53,53,0,0,1,352.068382,92.829799");
   test.end();
 });
