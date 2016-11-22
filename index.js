@@ -1,1 +1,1 @@
-export {default as path} from "./src/path";
+export {default as path, pathFixed} from "./src/path";
