@@ -83,6 +83,18 @@ tape("path.arc(x, y, radius, startAngle, endAngle) may append only an L command 
   test.end();
 });
 
+tape("path.arc(x, y, radius, startAngle, endAngle) may append only an M command if the angle is zero", function(test) {
+  var p = path.path(); p.arc(100, 100, 0, 0, 0);
+  test.pathEqual(p, "M100,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, startAngle, endAngle) may append only an M command if the angle is near zero", function(test) {
+  var p = path.path(); p.arc(100, 100, 0, 0, 1e-16);
+  test.pathEqual(p, "M100,100");
+  test.end();
+});
+
 tape("path.arc(x, y, radius, startAngle, endAngle) may append an M command if the path was empty", function(test) {
   var p = path.path(); p.arc(100, 100, 50, 0, Math.PI * 2);
   test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
@@ -124,6 +136,66 @@ tape("path.arc(x, y, radius, 0, π/2, false) draws a small clockwise arc", funct
 tape("path.arc(x, y, radius, -π/2, 0, false) draws a small clockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, -Math.PI / 2, 0, false);
   test.pathEqual(p, "M100,50A50,50,0,0,1,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, ε, true) draws an anticlockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 1e-16, true);
+  test.pathEqual(p, "M150,100A50,50,0,1,0,50,100A50,50,0,1,0,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, ε, false) draws nothing", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 1e-16, false);
+  test.pathEqual(p, "M150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, -ε, true) draws nothing", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, -1e-16, true);
+  test.pathEqual(p, "M150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, -ε, false) draws a clockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, -1e-16, false);
+  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, τ, true) draws an anticlockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 2 * Math.PI, true);
+  test.pathEqual(p, "M150,100A50,50,0,1,0,50,100A50,50,0,1,0,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, τ, false) draws a clockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 2 * Math.PI, false);
+  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, τ + ε, true) draws an anticlockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 2 * Math.PI + 1e-13, true);
+  test.pathEqual(p, "M150,100A50,50,0,1,0,50,100A50,50,0,1,0,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, τ - ε, false) draws a clockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 2 * Math.PI - 1e-13, false);
+  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, τ, 0, true) draws an anticlockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 2 * Math.PI, true);
+  test.pathEqual(p, "M150,100A50,50,0,1,0,50,100A50,50,0,1,0,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, τ, 0, false) draws a clockwise circle", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, 2 * Math.PI, false);
+  test.pathEqual(p, "M150,100A50,50,0,1,1,50,100A50,50,0,1,1,150,100");
   test.end();
 });
 
@@ -172,6 +244,12 @@ tape("path.arc(x, y, radius, -π/2, 0, true) draws a big anticlockwise arc", fun
 tape("path.arc(x, y, radius, -13π/2, 0, true) draws a big anticlockwise arc", function(test) {
   var p = path.path(); p.moveTo(100, 50); p.arc(100, 100, 50, -13 * Math.PI / 2, 0, true);
   test.pathEqual(p, "M100,50A50,50,0,1,0,150,100");
+  test.end();
+});
+
+tape("path.arc(x, y, radius, -13π/2, 0, false) draws a big anticlockwise arc", function(test) {
+  var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, -13 * Math.PI / 2, false);
+  test.pathEqual(p, "M150,100A50,50,0,1,1,100,50");
   test.end();
 });
 
