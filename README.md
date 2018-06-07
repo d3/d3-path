@@ -77,4 +77,4 @@ Creates a new subpath containing just the four points ⟨*x*, *y*⟩, ⟨*x* + *
 
 <a name="path_toString" href="#path_toString">#</a> <i>path</i>.<b>toString</b>() [<>](https://github.com/d3/d3-path/blob/master/src/path.js#L125 "Source")
 
-Returns the string representation of this *path* according to SVG’s [path data specficiation](http://www.w3.org/TR/SVG/paths.html#PathData).
+Returns the string representation of this *path* according to SVG’s [path data specification](http://www.w3.org/TR/SVG/paths.html#PathData).
