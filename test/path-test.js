@@ -246,7 +246,7 @@ tape("path.arc(x, y, radius, -13π/2, 0, true) draws a big anticlockwise arc", f
   test.end();
 });
 
-tape("path.arc(x, y, radius, -13π/2, 0, false) draws a big anticlockwise arc", function(test) {
+tape("path.arc(x, y, radius, -13π/2, 0, false) draws a big clockwise arc", function(test) {
   var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, -13 * Math.PI / 2, false);
   test.pathEqual(p, "M150,100A50,50,0,1,1,100,50");
   test.end();
