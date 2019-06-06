@@ -270,6 +270,22 @@ tape("path.arc(x, y, radius, 3π/2, 0, true) draws a big anticlockwise arc", fun
   test.end();
 });
 
+tape("path.arc(x, y, radius, π/2, 0, trueish) draws a small anticlockwise arc", function(test) {
+  for (const trueish of [1, "1", true, 10, "3"]) {
+    var p = path.path(); p.moveTo(100, 150); p.arc(100, 100, 50, Math.PI / 2, 0, trueish);
+    test.pathEqual(p, "M100,150A50,50,0,0,0,150,100");
+  }
+  test.end();
+});
+
+tape("path.arc(x, y, radius, 0, π/2, falseish) draws a small clockwise arc", function(test) {
+  for (const falseish of [0, "0", null, undefined, "string"]) {
+    var p = path.path(); p.moveTo(150, 100); p.arc(100, 100, 50, 0, Math.PI / 2, falseish);
+    test.pathEqual(p, "M150,100A50,50,0,0,1,100,150");
+  }
+  test.end();
+});
+
 tape("path.arcTo(x1, y1, x2, y2, radius) throws an error if the radius is negative", function(test) {
   var p = path.path(); p.moveTo(150, 100);
   test.throws(function() { p.arcTo(270, 39, 163, 100, -53); }, /negative radius/);
