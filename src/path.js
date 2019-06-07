@@ -82,7 +82,7 @@ Path.prototype = path.prototype = {
     }
   },
   arc: function(x, y, r, a0, a1, ccw) {
-    x = +x, y = +y, r = +r, ccw = !!+ccw;
+    x = +x, y = +y, r = +r, ccw = !!ccw;
     var dx = r * Math.cos(a0),
         dy = r * Math.sin(a0),
         x0 = x + dx,
