@@ -1,1 +1,1 @@
-export {default as path} from "./path.js";
+export {default as path, pathFixed} from "./path.js";
