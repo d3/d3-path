@@ -45,7 +45,7 @@ Constructs a new path serializer that implements [CanvasPathMethods](http://www.
 
 Move to the specified point ⟨*x*, *y*⟩. Equivalent to [*context*.moveTo](http://www.w3.org/TR/2dcontext/#dom-context-2d-moveto) and SVG’s [“moveto” command](http://www.w3.org/TR/SVG/paths.html#PathDataMovetoCommands).
 
-<a name="path_closePath" href="#path_closePath">#</A> <i>path</i>.<b>closePath</b>()
+<a name="path_closePath" href="#path_closePath">#</a> <i>path</i>.<b>closePath</b>()
 
 Ends the current subpath and causes an automatic straight line to be drawn from the current point to the initial point of the current subpath. Equivalent to [*context*.closePath](http://www.w3.org/TR/2dcontext/#dom-context-2d-closepath) and SVG’s [“closepath” command](http://www.w3.org/TR/SVG/paths.html#PathDataClosePathCommand).
 
