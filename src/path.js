@@ -15,8 +15,13 @@ function path() {
 
 Path.prototype = path.prototype = {
   constructor: Path,
+  _number: function(x) {
+    return +x;
+  },
   moveTo: function(x, y) {
-    this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y);
+    x = this._number(x);
+    y = this._number(y);
+    this._ += "M" + (this._x0 = this._x1 = x) + "," + (this._y0 = this._y1 = y);
   },
   closePath: function() {
     if (this._x1 !== null) {
@@ -25,26 +30,41 @@ Path.prototype = path.prototype = {
     }
   },
   lineTo: function(x, y) {
-    this._ += "L" + (this._x1 = +x) + "," + (this._y1 = +y);
+    x = this._number(x);
+    y = this._number(y);
+    this._ += "L" + (this._x1 = x) + "," + (this._y1 = y);
   },
   quadraticCurveTo: function(x1, y1, x, y) {
-    this._ += "Q" + (+x1) + "," + (+y1) + "," + (this._x1 = +x) + "," + (this._y1 = +y);
+    x1 = this._number(x1);
+    y1 = this._number(y1);
+    x = this._number(x);
+    y = this._number(y);
+    this._ += "Q" + x1 + "," + y1 + "," + (this._x1 = x) + "," + (this._y1 = y);
   },
   bezierCurveTo: function(x1, y1, x2, y2, x, y) {
-    this._ += "C" + (+x1) + "," + (+y1) + "," + (+x2) + "," + (+y2) + "," + (this._x1 = +x) + "," + (this._y1 = +y);
+    x1 = this._number(x1);
+    y1 = this._number(y1);
+    x2 = this._number(x2);
+    y2 = this._number(y2);
+    x = this._number(x);
+    y = this._number(y);
+    this._ += "C" + x1 + "," + y1 + "," + x2 + "," + y2 + "," + (this._x1 = x) + "," + (this._y1 = y);
   },
   arcTo: function(x1, y1, x2, y2, r) {
-    x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
     var x0 = this._x1,
         y0 = this._y1,
         x21 = x2 - x1,
         y21 = y2 - y1,
         x01 = x0 - x1,
         y01 = y0 - y1,
-        l01_2 = x01 * x01 + y01 * y01;
+        l01_2 = x01 * x01 + y01 * y01,
+        r_ = this._number(r);
 
     // Is the radius negative? Error.
-    if (r < 0) throw new Error("negative radius: " + r);
+    if (r_ < 0) throw new Error("negative radius: " + r_);
+
+    x1 = this._number(x1);
+    y1 = this._number(y1);
 
     // Is this path empty? Move to (x1,y1).
     if (this._x1 === null) {
@@ -57,7 +77,7 @@ Path.prototype = path.prototype = {
     // Or, are (x0,y0), (x1,y1) and (x2,y2) collinear?
     // Equivalently, is (x1,y1) coincident with (x2,y2)?
     // Or, is the radius zero? Line to (x1,y1).
-    else if (!(Math.abs(y01 * x21 - y21 * x01) > epsilon) || !r) {
+    else if (!(Math.abs(y01 * x21 - y21 * x01) > epsilon) || !r_) {
       this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
     }
 
@@ -75,18 +95,18 @@ Path.prototype = path.prototype = {
 
       // If the start tangent is not coincident with (x0,y0), line to.
       if (Math.abs(t01 - 1) > epsilon) {
-        this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01);
+        this._ += "L" + this._number(x1 + t01 * x01) + "," + this._number(y1 + t01 * y01);
       }
 
-      this._ += "A" + r + "," + r + ",0,0," + (+(y01 * x20 > x01 * y20)) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
+      this._ += "A" + r_ + "," + r_ + ",0,0," + this._number(y01 * x20 > x01 * y20) + "," + (this._x1 = this._number(x1 + t21 * x21)) + "," + (this._y1 = this._number(y1 + t21 * y21));
     }
   },
   arc: function(x, y, r, a0, a1, ccw) {
     x = +x, y = +y, r = +r, ccw = !!ccw;
     var dx = r * Math.cos(a0),
         dy = r * Math.sin(a0),
-        x0 = x + dx,
-        y0 = y + dy,
+        x0 = this._number(x + dx),
+        y0 = this._number(y + dy),
         cw = 1 ^ ccw,
         da = ccw ? a0 - a1 : a1 - a0;
 
@@ -104,23 +124,28 @@ Path.prototype = path.prototype = {
     }
 
     // Is this arc empty? We’re done.
-    if (!r) return;
+    var r_ = this._number(r);
+    if (!(r_)) return;
 
     // Does the angle go the wrong way? Flip the direction.
     if (da < 0) da = da % tau + tau;
 
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
-      this._ += "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
+      this._ += "A" + r_ + "," + r_ + ",0,1," + cw + "," + this._number(x - dx) + "," + this._number(y - dy) + "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
     }
 
     // Is this arc non-empty? Draw an arc!
     else if (da > epsilon) {
-      this._ += "A" + r + "," + r + ",0," + (+(da >= pi)) + "," + cw + "," + (this._x1 = x + r * Math.cos(a1)) + "," + (this._y1 = y + r * Math.sin(a1));
+      this._ += "A" + r_ + "," + r_ + ",0," + (+(da >= pi)) + "," + cw + "," + (this._x1 = this._number(x + r * Math.cos(a1))) + "," + (this._y1 = this._number(y + r * Math.sin(a1)));
     }
   },
   rect: function(x, y, w, h) {
-    this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y) + "h" + (+w) + "v" + (+h) + "h" + (-w) + "Z";
+    x = this._number(x);
+    y = this._number(y);
+    w = this._number(w);
+    h = this._number(h);
+    this._ += "M" + (this._x0 = this._x1 = x) + "," + (this._y0 = this._y1 = y) + "h" + w + "v" + h + "h" + (-w) + "Z";
   },
   toString: function() {
     return this._;
@@ -128,3 +153,10 @@ Path.prototype = path.prototype = {
 };
 
 export default path;
+
+export function pathFixed(digits) {
+  var path = new Path;
+  (digits = +digits).toFixed(digits); // Validate digits.
+  path._number = function(x) { return +x.toFixed(digits); };
+  return path;
+}
