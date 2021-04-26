@@ -39,7 +39,7 @@ p.closePath();
 For legacy environments, you can load d3-path’s UMD bundle from an npm-based CDN such as jsDelivr; a `d3` global is exported:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/path@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-path@3"></script>
 <script>
 
 const path = d3.path();
