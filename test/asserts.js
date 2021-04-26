@@ -1,6 +1,6 @@
 import assert from "assert";
 
-export default function(actual, expected) {
+export function assertPathEqual(actual, expected) {
   assert.strictEqual(normalizePath(actual + ""), normalizePath(expected + ""));
 }
 
