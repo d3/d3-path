@@ -1,17 +1,17 @@
-var tape = require("tape");
+const reNumber = /[-+]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][-]?\d+)?/g;
 
-var reNumber = /[-+]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][-]?\d+)?/g;
-
-tape.Test.prototype.pathEqual = function(actual, expected) {
-  actual = normalizePath(actual + "");
-  expected = normalizePath(expected + "");
-  this._assert(actual === expected, {
-    message: "should be equal",
-    operator: "pathEqual",
-    actual: actual,
-    expected: expected
-  });
-};
+export default function(assert) {
+  return function (actual, expected) {
+    actual = normalizePath(actual + "");
+    expected = normalizePath(expected + "");
+    assert(actual === expected, {
+      message: "should be equal",
+      operator: "pathEqual",
+      actual: actual,
+      expected: expected
+    });
+  };
+}
 
 function normalizePath(path) {
   return path.replace(reNumber, formatNumber);
