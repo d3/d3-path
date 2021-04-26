@@ -12,7 +12,7 @@ function drawCircle(context, radius) {
 The d3-path module lets you take this exact code and additionally render to [SVG](http://www.w3.org/TR/SVG/paths.html). It works by [serializing](#path_toString) [CanvasPathMethods](http://www.w3.org/TR/2dcontext/#canvaspathmethods) calls to [SVG path data](http://www.w3.org/TR/SVG/paths.html#PathData). For example:
 
 ```js
-var context = d3.path();
+const context = d3.path();
 drawCircle(context, 40);
 pathElement.setAttribute("d", context.toString());
 ```
@@ -21,16 +21,28 @@ Now code you write once can be used with both Canvas (for performance) and SVG (
 
 ## Installing
 
-If you use NPM, `npm install d3-path`. Otherwise, download the [latest release](https://github.com/d3/d3-path/releases/latest). You can also load directly from [d3js.org](https://d3js.org), either as a [standalone library](https://d3js.org/d3-path.v2.min.js) or as part of [D3](https://github.com/d3/d3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
+If you use npm, `npm install d3-path`. You can also download the [latest release on GitHub](https://github.com/d3/d3-path/releases/latest). In modern browsers, you can import d3-path from Skypack:
 
 ```html
-<script src="https://d3js.org/d3-path.v2.min.js"></script>
+<script type="module">
+
+import {path} from "https://cdn.skypack.dev/d3-path@3";
+
+const p = path();
+p.moveTo(1, 2);
+p.lineTo(3, 4);
+p.closePath();
+
+</script>
+```
+
+For legacy environments, you can load d3-path’s UMD bundle from an npm-based CDN such as jsDelivr; a `d3` global is exported:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/path@3"></script>
 <script>
 
-var path = d3.path();
-path.moveTo(1, 2);
-path.lineTo(3, 4);
-path.closePath();
+const path = d3.path();
 
 </script>
 ```
