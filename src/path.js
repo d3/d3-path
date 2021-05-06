@@ -81,17 +81,18 @@ Path.prototype = path.prototype = {
       this._ += "A" + r + "," + r + ",0,0," + (+(y01 * x20 > x01 * y20)) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
     }
   },
-  arc: function(x, y, r, a0, a1, ccw) {
-    x = +x, y = +y, r = +r, ccw = !!ccw;
-    var dx = r * Math.cos(a0),
-        dy = r * Math.sin(a0),
+  ellipse: function(x, y, rx, ry, rotation, a0, a1, ccw) {
+    x = +x, y = +y, rx = +rx, ry = +ry, ccw = !!ccw;
+    var dx = rx * Math.cos(a0),
+        dy = ry * Math.sin(a0),
         x0 = x + dx,
         y0 = y + dy,
         cw = 1 ^ ccw,
         da = ccw ? a0 - a1 : a1 - a0;
 
-    // Is the radius negative? Error.
-    if (r < 0) throw new Error("negative radius: " + r);
+    // Is a radius negative? Error.
+    if (rx < 0) throw new Error("negative x radius: " + rx);
+    if (ry < 0) throw new Error("negative y radius: " + ry);
 
     // Is this path empty? Move to (x0,y0).
     if (this._x1 === null) {
@@ -104,20 +105,28 @@ Path.prototype = path.prototype = {
     }
 
     // Is this arc empty? We’re done.
-    if (!r) return;
+    if (!rx || !ry) return;
 
     // Does the angle go the wrong way? Flip the direction.
     if (da < 0) da = da % tau + tau;
 
-    // Is this a complete circle? Draw two arcs to complete the circle.
+    // Is this a complete ellipse? Draw two arcs to complete the ellipse.
     if (da > tauEpsilon) {
-      this._ += "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
+      this._ += "A" + rx + "," + ry + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + rx + "," + ry + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
     }
 
     // Is this arc non-empty? Draw an arc!
     else if (da > epsilon) {
-      this._ += "A" + r + "," + r + ",0," + (+(da >= pi)) + "," + cw + "," + (this._x1 = x + r * Math.cos(a1)) + "," + (this._y1 = y + r * Math.sin(a1));
+      this._ += "A" + rx + "," + ry + ",0," + (+(da >= pi)) + "," + cw + "," + (this._x1 = x + rx * Math.cos(a1)) + "," + (this._y1 = y + ry * Math.sin(a1));
     }
+  },
+  arc: function(x, y, r, a0, a1, ccw) {
+    // Is the radius negative? Error.
+    if (r < 0) throw new Error("negative radius: " + r);
+
+    // arc() is equivalent to ellipse() except that both radii are equal and rotation is 0.
+    // see: https://html.spec.whatwg.org/multipage/canvas.html#dom-context-2d-arc
+    this.ellipse(x, y, r, r, 0, a0, a1, ccw);
   },
   rect: function(x, y, w, h) {
     this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y) + "h" + (+w) + "v" + (+h) + "h" + (-w) + "Z";

@@ -347,3 +347,15 @@ tape("path.rect(x, y, w, h) appends M, h, v, h, and Z commands", function(test) 
   test.pathEqual(p, "M150,100M100,200h50v25h-50Z");
   test.end();
 });
+
+tape("path.ellipse(x, y, rx, ry, rotation, startAngle, endAngle) throws an error if rx is negative", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  test.throws(function() { p.ellipse(100, 100, -50, 50, 0, 0, Math.PI / 2); }, /negative x radius/);
+  test.end();
+});
+
+tape("path.ellipse(x, y, rx, ry, rotation, startAngle, endAngle) throws an error if ry is negative", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  test.throws(function() { p.ellipse(100, 100, 50, -50, 0, 0, Math.PI / 2); }, /negative y radius/);
+  test.end();
+});
