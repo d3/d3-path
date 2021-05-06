@@ -83,12 +83,13 @@ Path.prototype = path.prototype = {
   },
   ellipse: function(x, y, rx, ry, rotation, a0, a1, ccw) {
     x = +x, y = +y, rx = +rx, ry = +ry, ccw = !!ccw;
-    var dx = rx * Math.cos(a0),
-        dy = ry * Math.sin(a0),
+    var dx = rx * Math.cos(a0) * Math.cos(rotation) - ry * Math.sin(a0) * Math.sin(rotation),
+        dy = ry * Math.sin(a0) * Math.cos(rotation) + rx * Math.cos(a0) * Math.sin(rotation),
         x0 = x + dx,
         y0 = y + dy,
         cw = 1 ^ ccw,
-        da = ccw ? a0 - a1 : a1 - a0;
+        da = ccw ? a0 - a1 : a1 - a0,
+        rotationDegrees = rotation / tau * 360;
 
     // Is a radius negative? Error.
     if (rx < 0) throw new Error("negative x radius: " + rx);
@@ -112,12 +113,12 @@ Path.prototype = path.prototype = {
 
     // Is this a complete ellipse? Draw two arcs to complete the ellipse.
     if (da > tauEpsilon) {
-      this._ += "A" + rx + "," + ry + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + rx + "," + ry + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
+      this._ += "A" + rx + "," + ry + "," + rotationDegrees + ",1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + rx + "," + ry + "," + rotationDegrees + ",1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
     }
 
     // Is this arc non-empty? Draw an arc!
     else if (da > epsilon) {
-      this._ += "A" + rx + "," + ry + ",0," + (+(da >= pi)) + "," + cw + "," + (this._x1 = x + rx * Math.cos(a1)) + "," + (this._y1 = y + ry * Math.sin(a1));
+      this._ += "A" + rx + "," + ry + "," + rotationDegrees + "," + (+(da >= pi)) + "," + cw + "," + (this._x1 = x + rx * Math.cos(a1) * Math.cos(rotation) - ry * Math.sin(a1) * Math.sin(rotation)) + "," + (this._y1 = y + ry * Math.sin(a1) * Math.cos(rotation) + rx * Math.cos(a1) * Math.sin(rotation));
     }
   },
   arc: function(x, y, r, a0, a1, ccw) {
