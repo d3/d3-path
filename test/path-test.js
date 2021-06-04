@@ -1,5 +1,5 @@
 import assert from "assert";
-import assertPathEqual from "./asserts.js";
+import {assertPathEqual} from "./asserts.js";
 import {path} from "../src/index.js";
 
 it("path is an instanceof path", () => {
