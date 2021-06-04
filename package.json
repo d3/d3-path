@@ -1,6 +1,6 @@
 {
   "name": "d3-path",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Serialize Canvas path commands to SVG.",
   "homepage": "https://d3js.org/d3-path/",
   "repository": {
