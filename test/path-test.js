@@ -293,3 +293,54 @@ it("path.rect(x, y, w, h) appends M, h, v, h, and Z commands", () => {
   const p = path(); p.moveTo(150, 100), p.rect(100, 200, 50, 25);
   assertPathEqual(p, "M150,100M100,200h50v25h-50Z");
 });
+
+tape("path.ellipse(x, y, rx, ry, rotation, startAngle, endAngle) throws an error if rx is negative, counterclockwise", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  test.throws(function() { p.ellipse(100, 100, -50, 50, 0, 0, Math.PI / 2); }, /negative x radius/);
+  test.end();
+});
+
+tape("path.ellipse(x, y, rx, ry, rotation, startAngle, endAngle) throws an error if ry is negative, counterclockwise", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  test.throws(function() { p.ellipse(100, 100, 50, -50, 0, 0, Math.PI / 2); }, /negative y radius/);
+  test.end();
+});
+
+tape("path.ellipse(x, y, rx, ry, π/2, 0, π/2, falsey) draws the bottom half of an ellipse, rotated by 90 degrees", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  p.ellipse(100, 100, 50, 75, Math.PI/2, 0, Math.PI, false);
+  test.pathEqual(p, "M150,100L100,150A50,75,90,1,1,100,50");
+  test.end();
+});
+
+tape("path.ellipse(x, y, rx, ry, π/2, 0, 3π/2, falsey) draws a large arc of an ellipse rotated by 90 degrees", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  p.ellipse(100, 100, 50, 75, Math.PI/2, 0, 3*Math.PI/2, false);
+  test.pathEqual(p, "M150,100L100,150A50,75,90,1,1,175,100");
+  test.end();
+});
+
+tape("path.ellipse(x, y, rx, ry, π/2, 0, π/2, truey) draws the bottom half of a ccw ellipse, rotated by 90 degrees", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  p.ellipse(100, 100, 50, 75, Math.PI/2, 0, Math.PI, true);
+  test.pathEqual(p, "M150,100L100,150A50,75,90,1,0,100,50");
+  test.end();
+});
+
+tape("path.ellipse(x, y, rx, ry, π/2, 0, 3π/2, truey) draws a large arc of a ccw ellipse rotated by 90 degrees", function(test) {
+  var p = path.path(); p.moveTo(150, 100);
+  p.ellipse(100, 100, 50, 75, Math.PI/2, 0, 3*Math.PI/2, true);
+  test.pathEqual(p, "M150,100L100,150A50,75,90,0,0,175,100");
+  test.end();
+});
+
+tape("draws a sequence of straight lines and elliptical arcs, forming an S shape", function(test) {
+  var p = path.path();
+  p.moveTo(10, 25);
+  p.lineTo(50, 25);
+  p.ellipse(150, 100, 75, 50, Math.PI/2, Math.PI, Math.PI/2, true);
+  p.ellipse(50, 100, 75, 50, Math.PI/2, -Math.PI/2, 0, false);
+  p.lineTo(190, 175);
+  test.pathEqual(p, "M10,25L50,25L150,25A75,50,90,0,0,100,100A75,50,90,0,1,50,175L190,175");
+  test.end();
+});
