@@ -17,7 +17,7 @@ export class Path {
     };
   }
   moveTo(x, y) {
-    this._append`M${this._x0 = this._x1 = x = +x},${this._y0 = this._y1 = y = +y}`;
+    this._append`M${this._x0 = this._x1 = +x},${this._y0 = this._y1 = +y}`;
   }
   closePath() {
     if (this._x1 !== null) {
@@ -26,13 +26,13 @@ export class Path {
     }
   }
   lineTo(x, y) {
-    this._append`L${this._x1 = x = +x},${this._y1 = y = +y}`;
+    this._append`L${this._x1 = +x},${this._y1 = +y}`;
   }
   quadraticCurveTo(x1, y1, x, y) {
-    this._append`Q${+x1},${+y1},${this._x1 = x = +x},${this._y1 = y = +y}`;
+    this._append`Q${+x1},${+y1},${this._x1 = +x},${this._y1 = +y}`;
   }
   bezierCurveTo(x1, y1, x2, y2, x, y) {
-    this._append`C${+x1},${+y1},${+x2},${+y2},${this._x1 = x = +x},${this._y1 = y = +y}`;
+    this._append`C${+x1},${+y1},${+x2},${+y2},${this._x1 = +x},${this._y1 = +y}`;
   }
   arcTo(x1, y1, x2, y2, r) {
     x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
