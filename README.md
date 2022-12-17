@@ -21,12 +21,12 @@ Now code you write once can be used with both Canvas (for performance) and SVG (
 
 ## Installing
 
-If you use npm, `npm install d3-path`. You can also download the [latest release on GitHub](https://github.com/d3/d3-path/releases/latest). In modern browsers, you can import d3-path from Skypack:
+If you use npm, `npm install d3-path`. You can also download the [latest release on GitHub](https://github.com/d3/d3-path/releases/latest). In modern browsers, you can import d3-path from jsDelivr:
 
 ```html
 <script type="module">
 
-import {path} from "https://cdn.skypack.dev/d3-path@3";
+import {path} from "https://cdn.jsdelivr.net/npm/d3-path@3/+esm";
 
 const p = path();
 p.moveTo(1, 2);
@@ -88,3 +88,7 @@ Creates a new subpath containing just the four points ⟨*x*, *y*⟩, ⟨*x* + *
 <a name="path_toString" href="#path_toString">#</a> <i>path</i>.<b>toString</b>()
 
 Returns the string representation of this *path* according to SVG’s [path data specification](http://www.w3.org/TR/SVG/paths.html#PathData).
+
+<a name="pathFixed" href="#pathFixed">#</a> d3.<b>pathFixed</b>(*digits* = 3) · [Source](https://github.com/d3/d3-path/blob/master/src/path.js), [Examples](https://observablehq.com/@d3/d3-path)
+
+Like [d3.path](#path), except limits the digits after the decimal to the specified number of *digits*.
