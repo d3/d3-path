@@ -3,18 +3,31 @@ const pi = Math.PI,
     epsilon = 1e-6,
     tauEpsilon = tau - epsilon;
 
+function append(strings) {
+  let i = 0;
+  for (const j = strings.length - 1; i < j; ++i) {
+    this._ += strings[i] + arguments[i + 1];
+  }
+  this._ += strings[i];
+}
+
+function appendFixed(digits) {
+  (digits = +digits).toFixed(digits); // validate digits
+  return function(strings) {
+    let i = 0;
+    for (const j = strings.length - 1; i < j; ++i) {
+      this._ += strings[i] + +(arguments[i + 1]).toFixed(digits);
+    }
+    this._ += strings[i];
+  };
+}
+
 export class Path {
-  constructor(format = String) {
+  constructor(digits) {
     this._x0 = this._y0 = // start of current subpath
     this._x1 = this._y1 = null; // end of current subpath
     this._ = "";
-    this._append = function(strings) {
-      let i = 0;
-      for (const j = strings.length - 1; i < j; ++i) {
-        this._ += strings[i] + format(arguments[i + 1]);
-      }
-      this._ += strings[i];
-    };
+    this._append = digits == null ? append : appendFixed(digits);
   }
   moveTo(x, y) {
     this._append`M${this._x0 = this._x1 = +x},${this._y0 = this._y1 = +y}`;
@@ -137,7 +150,6 @@ export function path() {
 // Allow instanceof d3.path
 path.prototype = Path.prototype;
 
-export function pathFixed(digits) {
-  (digits = +digits).toFixed(digits); // Validate digits.
-  return new Path((x) => +x.toFixed(digits));
+export function pathFixed(digits = 3) {
+  return new Path(+digits);
 }

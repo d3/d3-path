@@ -1,6 +1,29 @@
 import assert from "assert";
 import {path, pathFixed} from "../src/index.js";
 
+it("pathFixed() defaults to three digits of precision", () => {
+  const p = pathFixed();
+  p.moveTo(Math.PI, Math.E);
+  assert.strictEqual(p + "", "M3.142,2.718");
+});
+
+it("pathFixed(null) is equivalent to pathFixed(0)", () => {
+  const p = pathFixed(null);
+  p.moveTo(Math.PI, Math.E);
+  assert.strictEqual(p + "", "M3,3");
+});
+
+it("pathFixed(NaN) is equivalent to pathFixed(0)", () => {
+  const p = pathFixed(NaN); // arguably this should throw, but number.toFixed doesn’t
+  p.moveTo(Math.PI, Math.E);
+  assert.strictEqual(p + "", "M3,3");
+});
+
+it("pathFixed(digits) validates the specified digits", () => {
+  assert.throws(() => pathFixed(-1), /digits argument must be between 0 and 100/);
+  assert.throws(() => pathFixed(200), /digits argument must be between 0 and 100/);
+});
+
 it("pathFixed.moveTo(x, y) limits the precision", () => {
   const p = pathFixed(1);
   p.moveTo(123.456, 789.012);
