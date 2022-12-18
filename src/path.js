@@ -4,21 +4,21 @@ const pi = Math.PI,
     tauEpsilon = tau - epsilon;
 
 function append(strings) {
-  let i = 0;
-  for (const j = strings.length - 1; i < j; ++i) {
-    this._ += strings[i] + arguments[i + 1];
+  let i = 1;
+  this._ += strings[0];
+  for (const n = strings.length; i < n; ++i) {
+    this._ += arguments[i] + strings[i];
   }
-  this._ += strings[i];
 }
 
 function appendFixed(digits) {
   (digits = +digits).toFixed(digits); // validate digits
   return function(strings) {
-    let i = 0;
-    for (const j = strings.length - 1; i < j; ++i) {
-      this._ += strings[i] + +(arguments[i + 1]).toFixed(digits);
+    let i = 1;
+    this._ += strings[0];
+    for (const n = strings.length; i < n; ++i) {
+      this._ += +(arguments[i]).toFixed(digits) + strings[i];
     }
-    this._ += strings[i];
   };
 }
 
