@@ -4,9 +4,8 @@ const pi = Math.PI,
     tauEpsilon = tau - epsilon;
 
 function append(strings) {
-  let i = 1;
   this._ += strings[0];
-  for (const n = strings.length; i < n; ++i) {
+  for (let i = 1, n = strings.length; i < n; ++i) {
     this._ += arguments[i] + strings[i];
   }
 }
@@ -17,9 +16,8 @@ function appendRound(digits) {
   if (d > 15) return append;
   const k = 10 ** d;
   return function(strings) {
-    let i = 1;
     this._ += strings[0];
-    for (const n = strings.length; i < n; ++i) {
+    for (let i = 1, n = strings.length; i < n; ++i) {
       this._ += Math.round(arguments[i] * k) / k + strings[i];
     }
   };
