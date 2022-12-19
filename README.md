@@ -89,6 +89,6 @@ Creates a new subpath containing just the four points ⟨*x*, *y*⟩, ⟨*x* + *
 
 Returns the string representation of this *path* according to SVG’s [path data specification](http://www.w3.org/TR/SVG/paths.html#PathData).
 
-<a name="pathFixed" href="#pathFixed">#</a> d3.<b>pathFixed</b>(*digits* = 3) · [Source](https://github.com/d3/d3-path/blob/master/src/path.js), [Examples](https://observablehq.com/@d3/d3-path)
+<a name="pathRound" href="#pathRound">#</a> d3.<b>pathRound</b>(*digits* = 3) · [Source](https://github.com/d3/d3-path/blob/master/src/path.js), [Examples](https://observablehq.com/@d3/d3-path)
 
 Like [d3.path](#path), except limits the digits after the decimal to the specified number of *digits*.

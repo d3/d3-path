@@ -11,13 +11,16 @@ function append(strings) {
   }
 }
 
-function appendFixed(digits) {
-  (digits = +digits).toFixed(digits); // validate digits
+function appendRound(digits) {
+  let d = Math.floor(digits);
+  if (!(d >= 0)) throw new Error(`invalid digits: ${digits}`);
+  if (d > 15) return append;
+  const k = 10 ** d;
   return function(strings) {
     let i = 1;
     this._ += strings[0];
     for (const n = strings.length; i < n; ++i) {
-      this._ += +(arguments[i]).toFixed(digits) + strings[i];
+      this._ += Math.round(arguments[i] * k) / k + strings[i];
     }
   };
 }
@@ -27,7 +30,7 @@ export class Path {
     this._x0 = this._y0 = // start of current subpath
     this._x1 = this._y1 = null; // end of current subpath
     this._ = "";
-    this._append = digits == null ? append : appendFixed(digits);
+    this._append = digits == null ? append : appendRound(digits);
   }
   moveTo(x, y) {
     this._append`M${this._x0 = this._x1 = +x},${this._y0 = this._y1 = +y}`;
@@ -150,6 +153,6 @@ export function path() {
 // Allow instanceof d3.path
 path.prototype = Path.prototype;
 
-export function pathFixed(digits = 3) {
+export function pathRound(digits = 3) {
   return new Path(+digits);
 }

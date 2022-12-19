@@ -1,1 +1,1 @@
-export {Path, path, pathFixed} from "./path.js";
+export {Path, path, pathRound} from "./path.js";
