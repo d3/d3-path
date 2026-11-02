@@ -7,6 +7,6 @@ This module provides a common API for drawing in SVG and canvas.
 ## Resources
 
 - [Documentation](https://d3js.org/d3-path)
-- [Examples](https://observablehq.com/collection/@d3/d3-path)
+- [Examples](https://observablehq.com/@d3/-/collection/d3-path)
 - [Releases](https://github.com/d3/d3-path/releases)
 - [Getting help](https://d3js.org/community)
