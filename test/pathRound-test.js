@@ -50,6 +50,29 @@ it("pathRound.arc(x, y, r, a0, a1, ccw) limits the precision", () => {
   assert.strictEqual(p + "", precision(p0 + "", 1));
 });
 
+it("pathRound.arc(x, y, r, a0, a1, false) draws two arcs for near-circular arcs with rounding", () => {
+  const p0 = path(), p = pathRound(1);
+  const a0 = -1.5707963267948966;
+  const a1 = 4.712383653719071;
+  const a00 = a0 + (a1 - a0) / 2;
+  p0.arc(0, 0, 75, a0, a00);
+  p0.arc(0, 0, 75, a00, a1);
+  p.arc(0, 0, 75, a0, a1);
+  assert.strictEqual(p + "", precision(p0 + "", 1));
+});
+
+it("pathRound.arc(x, y, r, a0, a1, true) draws two arcs for near-circular arcs with rounding", () => {
+  const p0 = path(), p = pathRound(1);
+  const a0 = 0;
+  const a1 = a0 + 1e-5;
+  const da = 2 * Math.PI - 1e-5;
+  const a00 = a0 - da / 2;
+  p0.arc(0, 0, 75, a0, a00, true);
+  p0.arc(0, 0, 75, a00, a1, true);
+  p.arc(0, 0, 75, a0, a1, true);
+  assert.strictEqual(p + "", precision(p0 + "", 1));
+});
+
 it("pathRound.arcTo(x1, y1, x2, y2, r) limits the precision", () => {
   const p0 = path(), p = pathRound(1);
   p0.arcTo(10.0001, 10.0001, 123.456, 456.789, 12345.6789);
@@ -79,5 +102,5 @@ it("pathRound.rect(x, y, w, h) limits the precision", () => {
 });
 
 function precision(str, precision) {
-  return str.replace(/\d+\.\d+/g, s => +parseFloat(s).toFixed(precision));
+  return str.replace(/-?\d+\.\d+(e-?\d+)?/g, s => +parseFloat(s).toFixed(precision));
 }
