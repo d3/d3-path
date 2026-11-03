@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {path, pathRound} from "../src/index.js";
 
 it("pathRound() defaults to three digits of precision", () => {

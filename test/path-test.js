@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {assertPathEqual} from "./asserts.js";
 import {path} from "../src/index.js";
 
